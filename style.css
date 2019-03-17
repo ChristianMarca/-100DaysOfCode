@@ -1,0 +1,55 @@
+html {
+    font-size: 10px;
+    background: url(https://www.wallpaperup.com/uploads/wallpapers/2013/07/30/125443/4d67d67af6b713b9c1ae5b2ced349d0b-700.jpg) bottom center;
+    background-size: cover;
+  }
+  
+  body,html {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+  }
+  
+  .keys {
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .key {
+    border: .4rem solid #2E2E2E;
+    border-radius: .5rem;
+    margin: 1rem;
+    font-size: 1.5rem;
+    padding: 1rem .5rem;
+    transition: all .5s ease;
+    width: 10rem;
+    text-align: center;
+    color: white;
+    background: rgba(0,0,0,0.4);
+    text-shadow: 0 0 .5rem #2E2E2E;
+  }
+  
+  .playing {
+    transform: scale(1.1);
+    transform: rotate(10deg);
+    transform: translateY(-200px);
+    position: absolute;
+    border-color: #89CFF0;
+    box-shadow: 0 0 1rem #89CFF0;
+  }
+  
+  kbd {
+    display: block;
+    font-size: 4rem;
+  }
+  
+  .sound {
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: .1rem;
+    color: #95C8D8;
+  }

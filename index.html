@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Drum Kit</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="style.css">
+    <!-- <script src="main.js"></script> -->
+</head>
+<body>
+    <div class="keys">
+        <div data-key="65" class="key">
+            <kbd>A</kbd>
+            <span class="sound">clap</span>
+        </div>
+        <div data-key="83" class="key">
+            <kbd>S</kbd>
+            <span class="sound">hihat</span>
+        </div>
+        <div data-key="68" class="key">
+            <kbd>D</kbd>
+            <span class="sound">kick</span>
+        </div>
+        <div data-key="70" class="key">
+            <kbd>F</kbd>
+            <span class="sound">openhat</span>
+        </div>
+        <div data-key="71" class="key">
+            <kbd>G</kbd>
+            <span class="sound">boom</span>
+        </div>
+        <div data-key="72" class="key">
+            <kbd>H</kbd>
+            <span class="sound">ride</span>
+        </div>
+        <div data-key="74" class="key">
+            <kbd>J</kbd>
+            <span class="sound">snare</span>
+        </div>
+        <div data-key="75" class="key">
+            <kbd>K</kbd>
+            <span class="sound">tom</span>
+        </div>
+        <div data-key="76" class="key">
+            <kbd>L</kbd>
+            <span class="sound">tink</span>
+        </div>
+
+        <audio data-key="65">
+            <source src="./Kit 1 - Acoustic close/CYCdh_K1close_ClHat-01.wav" type="audio/wav">
+        </audio>
+        <audio data-key="83">
+            <source src="Kit 1 - Acoustic close/CYCdh_K1close_PdHat-03.wav" type="audio/wav">
+        </audio>
+        <audio data-key="68" src="Kit 1 - Acoustic close/CYCdh_K1close_Kick-03.wav"></audio>
+        <audio data-key="70" src="Kit 1 - Acoustic close//CYCdh_K1close_OpHat-03.wav"></audio>
+        <audio data-key="71" src="Kit 1 - Acoustic close/CYCdh_K1close_Kick-08.wav"></audio>
+        <audio data-key="72" src="Kit 1 - Acoustic close/CYCdh_K1close_Rim-03.wav"></audio>
+        <audio data-key="74" src="Kit 1 - Acoustic close/CYCdh_K1close_Snr-03.wav"></audio>
+        <audio data-key="75" src="Kit 1 - Acoustic close/CYCdh_K1close_Flam-03.wav"></audio>
+        <audio data-key="76" src="Kit 1 - Acoustic close/CYCdh_K1close_SnrOff-05.wav"></audio>
+    </div>
+    <script type="module">
+        import Main from './clases.js';
+        let eventListeners= new Main();
+        // myDrum.onHandlerEvent()  
+    </script>
+</body>
+</html>
