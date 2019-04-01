@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>HTML5</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta autor="Christian Marca">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=true"></script>
+    <style>
+        #horizontalList {
+            position:fixed;
+            overflow: hidden;
+            top: 5px;
+            background: #2e2e2e;
+            color: aliceblue;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            height: 38px;
+            width: 98vw;
+            z-index: 1000;
+        }
+        #horizontalList>ul {
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            align-content: center;
+            align-items: center;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        #verticalList{
+            position: fixed;
+            background: #3e3e3e;
+            color: aliceblue;
+            border-radius: 10px;
+            width: 200px;
+            height: calc(100vh - 10px - 38px - 5px);
+            margin-bottom: 0;
+            margin-top: -338px;
+            /* align-self: initial; */
+        }
+        #verticalList>ul {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-content: center;
+            align-items: center;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .rightItem{
+            margin-left:  auto;
+        }
+        .horizontalItem{
+            cursor: pointer;
+            list-style: none;
+            padding: 7px 20px;
+            font-size: 14pt;
+        }
+        .verticalItem{
+            cursor: pointer;
+            list-style: none;
+            padding: 10px 0;
+            font-size: 14pt;
+            width: 100%;
+            max-width: 100%;
+        }
+        .verticalItem:hover{
+            background: rgba(255, 255, 255, .25);
+            border: 1px dashed rgba(255, 255, 255, .25);
+        }
+        .horizontalItem:hover{
+            background: rgba(255, 255, 255, .25);
+            border: 1px dashed rgba(255, 255, 255, .25);
+        }
+        .superContainer{
+            /* position: fixed; */
+            display: flex;
+            /* overflow: hidden; */
+            width: 100%;
+            margin-top: 38px;
+            align-content: center;
+            align-items: center;
+        }
+        .subContainer{
+            position: relative;
+            left: 200px;
+            display: flex;
+            overflow:hidden;
+            flex-direction: column;
+            height: 100%;
+            /* width: calc(100vw - 225px); */
+            width: 84.8%;
+            margin: 5px;
+            align-self: auto;
+            z-index: 100;
+        }
+        article {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+        .inputText{
+            border: none;
+            border-bottom: 1.5px solid #2e2e2e;
+            background: transparent;
+            border-radius: 5px;
+            padding: 5px;
+        }
+
+        #mapa {
+            height: 81vh;
+            width: 100%;
+            /* align-self: center; */
+            /* padding: 0;
+            margin-bottom: 20px; */
+        }
+
+        .buttonStyle {
+            background: #3e3e3e;
+            color: #fff;
+            margin: 3px;
+            padding: 0 10px;
+            width: 80px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14pt;
+            align-self: center;
+            cursor: pointer;
+        }
+
+        .buttonStyle:hover {
+            /* border: 2px solid #fff; */
+            box-shadow: 0 0 4px #fff;
+            color: #fff;
+        }
+        #comentario{
+            height: 50px;
+            border-radius: 10px;
+        }
+        form{
+            display: flex;
+            flex-direction: column;
+        }
+        .writableContainer{
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-content: center;
+            align-items: center;
+            margin: 5px 0;
+            align-content: center;
+            align-items: center;
+            text-align: center;
+            border-radius: 10px;
+            border: 1px solid #2e2e2e;
+            background: rgba(0,0,0,.05);
+        }
+        .writableContainer *{
+            margin: 5px;
+        }
+        .btn span.icon {
+            background: url(https://cdn1.iconfinder.com/data/icons/education-set-7/512/arrow5-right-512.png) no-repeat;
+            float: left;
+            width: 10px;
+            height: 40px;
+        }
+        div[description]{
+            max-width: 40px;
+            height: 200px;
+            position: -webkit-sticky;
+            position: sticky;
+            left: 0; /* <-- become sticky once touching left edge */
+        }
+        .imageContainer{
+            overflow: hidden;
+        }
+
+        sidescroller{
+            display: flex;
+            align-items: center;
+            overflow-x: scroll;
+            /* overflow-y: hidden; */
+            background: #000;
+            border-radius: 10px;
+        }
+
+        div[wrapper]{
+            flex: 0 0 40px;
+            max-width: 40px;
+            height: 200px;
+            position: -webkit-sticky;
+            position: sticky;
+            left: 0;
+            white-space: nowrap;
+            color: #fff;
+        }
+
+        div[item]{
+            display: flex;
+        }
+
+        div[description] span{
+            display: inline-block;
+            background: rgba(0,0,0,.5);
+            width: 200px;
+            height: 40px;
+            transform: rotate(-90deg) translateX(-200px);
+            transform-origin: left top 0;
+            padding-top: 11px;
+            text-align: center;
+            text-transform: uppercase;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        img{
+            max-height: 200px;
+        }
+
+        #formDragAndDrop{
+            position: relative;
+            top: 50%;
+            left: 25%;
+            margin: 35px 0;
+            /* margin-top: -100px;
+            margin-left: -250px; */
+            width: 500px;
+            height: 200px;
+            border: 4px dashed #3e3e3e;
+        }
+        #formDragAndDrop p{
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            line-height: 170px;
+            color: #3e3e3e;
+            font-family: Arial;
+        }
+        #formDragAndDrop input{
+            position: absolute;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            outline: none;
+            opacity: 0;
+        }
+        #formDragAndDrop .buttonStyle{
+            margin: 0;
+            /* color: #fff;
+            background: #16a085; */
+            border: none;
+            width: 508px;
+            height: 35px;
+            margin-top: 5px;
+            margin-left: -4px;
+            border-radius: 4px;
+            border-bottom: 4px solid #2e2e2e;
+            transition: all .2s ease;
+            outline: none;
+        }
+        /* #formDragAndDrop button:hover{
+            background: #149174;
+            color: #0C5645;
+        }
+        #formDragAndDrop button:active{
+            border:0;
+        } */
+    </style>
+</head>
+<body>
+    <div id="horizontalList">
+        <ul>
+            <li class="horizontalItem">Uno</li>
+            <li class="horizontalItem">Dos</li>
+            <li class="horizontalItem">Tres</li>
+            <li class="horizontalItem rightItem">Cuatro</li>
+        </ul>
+    </div>
+    <div class="superContainer">
+        <div id="verticalList">
+            <ul>
+                <li class="verticalItem">Uno</li>
+                <li class="verticalItem">Dos</li>
+                <li class="verticalItem">Tres</li>
+                <li class="verticalItem">Cuatro</li>
+            </ul>
+        </div>
+        <div class="subContainer">
+            <div class="writableContainer">
+                <span>Coordenadas a buscar&nbsp;</span>
+                <input type="text" class="inputText" id="coordenadas" value=""/>
+                <!-- <input type="button" id="goButton" /> -->
+                <button class="btn buttonStyle" id="goButton">Go<i class="fa fa-angle-double-right"></i></button>
+            </div>
+            <article id="mapa"></article>
+            <div class="writableContainer">
+                <!-- <form action="/"> -->
+                    <form onsubmit="onSubmitInfo(event)">
+                    <div>
+                        <span>Nombre: </span>
+                        <input type="text" class="inputText" name="name" required>
+                        <span>Email: </span>
+                        <input type="email" class="inputText" name="email" required>
+                    </div>
+                    <span>Comentarios: </span>
+                    <textarea type="text" id="comentario" name="comentario" value="Comentarios" required></textarea>
+                    <input type="submit" class="buttonStyle" value="Enviar"></input>
+                  </form> 
+            </div>
+            <div class="imageContainer">
+                <form id="formDragAndDrop" onsubmit="onSubmitImage(event)">
+                    <input type="file" id="fileInput" accept="image/png, image/jpeg">
+                    <p>Arrastre y suelte sus archivos.</p>
+                    <button type="submit" class="buttonStyle">Cargar</button>
+                </form>
+                <sidescroller id="newImages">
+                    <!-- <div item>
+                        <div description><span>Clear Beach</span></div>
+                        <img src="http://gedd.ski/img/sticky/beach.jpg"></img>
+                    </div> -->
+                </sidescroller>
+                <sidescroller>
+                    <div item>
+                        <div description><span>Clear Beach</span></div>
+                        <img src="http://gedd.ski/img/sticky/beach.jpg"></img>
+                    </div>
+                    
+                    <div item>
+                        <div description><span>Gummy Bears Yay!</span></div>
+                        <img src="http://gedd.ski/img/sticky/gummy.jpg"></img>
+                    </div>
+                    
+                    <div item>
+                        <div description><span>Kids</span></div>
+                        <img src="http://gedd.ski/img/sticky/kids.jpg"></img>
+                    </div>
+                    
+                    <div item>
+                        <div description><span>Wolf Pup</span></div>
+                        <img src="http://gedd.ski/img/sticky/pup.jpg"></img>
+                    </div>
+                    
+                    <div item>
+                        <div description><span>Old Dude</span></div>
+                        <img src="http://gedd.ski/img/sticky/oldman.jpg"></img>
+                    </div>
+                </sidescroller>
+            </div>
+        </div>
+    </div>
+    <script>
+        // $(document).ready(function(){
+        // $('form input').change(function () {
+        //     $('form p').text(this.files.length + " file(s) selected");
+        // });
+        // });
+        var input = document.getElementById('coordenadas');
+        var goButton= document.getElementById('goButton');
+        var items=[];
+        input.addEventListener('change',this.manageCoordinates);
+        input.addEventListener('keyup',this.manageCoordinates);
+        goButton.addEventListener('click',(event)=>{
+            let coodinatesFromInput=document.getElementById('coordenadas');
+            let _newCoordenates=this.newCoordenates(coodinatesFromInput.value);
+            if(!_newCoordenates) alert('Error con las coordenadas')
+            this.mostrarPosicion(_newCoordenates);
+        })
+        var watchId;
+        var mapa = null;
+        var mapaMarcador = null;    
+        function onSubmitInfo(event){
+            event.preventDefault();
+            alert(`Gracias ${event.target.name.value}`)
+        }
+        function onSubmitImage(event){
+            event.preventDefault();
+            let imageSubmit= document.getElementById('fileInput');
+            let imageView=document.getElementById('newImages');
+            let menu=document.getElementById('verticalList');
+            let tempPath=URL.createObjectURL(imageSubmit.files[0]);
+            items.push(`<div item>
+                            <div description><span>Nuevas imagenes</span></div>
+                            <img src="${tempPath}"></img>
+                        </div>`);
+            imageView.innerHTML=items;
+            menu.style.marginTop= "-438px";
+        }
+        if (navigator.geolocation) {
+            watchId = navigator.geolocation.watchPosition(mostrarPosicion, mostrarErrores, opciones);   
+        } else {
+            alert("Tu navegador no soporta la geolocalización, actualiza tu navegador.");
+        }
+
+        function manageCoordinates(event){
+            console.log('ok')
+        }
+        function newCoordenates(coordinates){
+            let verifyCoordinates=new Coordenadas(coordinates);
+            let decimalCoordinates=verifyCoordinates.coordenadasDecimales();
+            if (!decimalCoordinates) return 0
+            return {
+                coords:{
+                    latitude:decimalCoordinates[0],
+                    longitude:decimalCoordinates[1]
+                }
+            }
+        }
+
+        function mostrarPosicion(posicion) {
+            var latitud = posicion.coords.latitude;
+            var longitud = posicion.coords.longitude;
+            var precision = posicion.coords.accuracy;
+
+            var miPosicion = new google.maps.LatLng(latitud, longitud);
+
+            // Se comprueba si el mapa se ha cargado ya 
+            if (mapa == null) {
+                // Crea el mapa y lo pone en el elemento del DOM con ID mapa
+                var configuracion = {center: miPosicion, zoom: 16, mapTypeId: google.maps.MapTypeId.HYBRID};
+                mapa = new google.maps.Map(document.getElementById("mapa"), configuracion);
+
+                // Crea el marcador en la posicion actual
+                mapaMarcador = new google.maps.Marker({position: miPosicion, title:"Esta es tu posición"});
+                mapaMarcador.setMap(mapa);
+            } else {
+                // Centra el mapa en la posicion actual
+                mapa.panTo(miPosicion);
+                // Pone el marcador para indicar la posicion
+                mapaMarcador.setPosition(miPosicion);
+            }
+        }
+
+        function mostrarErrores(error) {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    alert('Permiso denegado por el usuario'); 
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    alert('Posición no disponible');
+                    break; 
+                case error.TIMEOUT:
+                    alert('Tiempo de espera agotado');
+                    break;
+                default:
+                    alert('Error de Geolocalización desconocido :' + error.code);
+            }
+        }
+
+        var opciones = {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 1000
+        };
+
+        function detener() {
+            navigator.geolocation.clearWatch(watchId);
+        }
+
+        class Coordenadas {
+            constructor(latitud, longitud) {
+                if(!arguments.length){
+                    throw new Error('Se requieren argumentos');
+                }else if(arguments.length==1){
+                    let _coordinates=latitud.match(/([^,]+)/g);
+                    this.latitud = _coordinates[0];
+                    this.longitud = _coordinates[1];
+                }else{
+                    this.latitud = latitud;
+                    this.longitud = longitud;
+                }
+            }
+
+            coordenadasDecimales() {
+                var stringCoordinates = `${this.latitud} ${this.longitud}`;
+                const regex = /((?:[\+-]?[0-9]*[\.,][0-9]+)|(?:[\+-]?[0-9]+))|(?:[N n S s E e W w O o])/gm;
+                // const str = ``;
+                var coodinates = stringCoordinates.match(regex);
+                if(!stringCoordinates.includes("°") || stringCoordinates.length!=2){
+                    coodinates=[this.latitud,this.longitud]
+                }
+                this.lat;
+                this.long;
+                if (coodinates.length === 2) {
+                    this.lat = coodinates[0];
+                    this.long = coodinates[1];
+                } else {
+                    let lat =
+                        (Number(coodinates[0]) + Number(coodinates[1]) / 60 + Number(coodinates[2]) / 3600) *
+                        (coodinates.includes('S') || coodinates.includes('s') ? -1 : 1);
+                    let long =
+                        (Number(coodinates[4]) + Number(coodinates[5]) / 60 + Number(coodinates[6]) / 3600) *
+                        (coodinates.includes('W') ||
+                        coodinates.includes('O') ||
+                        coodinates.includes('w') ||
+                        coodinates.includes('o')
+                            ? -1
+                            : 1);
+                    this.lat = lat;
+                    this.long = long;
+                }
+                if(!this.lat || !this.long) return 0
+                return [ this.lat, this.long ];
+            }
+            coordenadasDMS() {
+                return [ this.decimalDegrees2DMS(this.lat, 'Latitude'), this.decimalDegrees2DMS(this.long, 'Longitude') ];
+            }
+            sign(x) {
+                return typeof x === 'number' ? (x ? (x < 0 ? -1 : 1) : x === x ? x : NaN) : NaN;
+            }
+            decimalDegrees2DMS(value, type) {
+                value = Number(value);
+                var degrees = Math.trunc(value);
+                var submin = Math.abs((value - Math.trunc(value)) * 60);
+                var minutes = Math.trunc(submin);
+                var subseconds = Math.abs((submin - Math.trunc(submin)) * 60);
+                var direction = '';
+                if (type == 'Longitude') {
+                    if (degrees < 0) {
+                        direction = 'W';
+                    } else if (degrees > 0) {
+                        direction = 'E';
+                    } else if (degrees === 0) {
+                        if (Object.is(this.sign(degrees), 0)) {
+                            direction = 'E';
+                        } else {
+                            direction = 'W';
+                        }
+                    }
+                } else if (type == 'Latitude') {
+                    if (degrees < 0) {
+                        direction = 'S';
+                    } else if (degrees > 0) {
+                        direction = 'N';
+                    } else if (degrees === 0) {
+                        if (Object.is(this.sign(degrees), 0)) {
+                            direction = 'N';
+                        } else {
+                            direction = 'S';
+                        }
+                    }
+                }
+                let notation = `${Math.abs(degrees)}\u00b0${minutes}'${subseconds.toFixed(2)}" ${direction}`;
+                return notation;
+            }
+        };
+    </script>
+</body>
+</html>
