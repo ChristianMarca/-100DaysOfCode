@@ -156,6 +156,46 @@ function mezclaUno(a,prim,ult){
     }
     return a
 }
+
+function empujar(a,prim,ult,i){
+    let j,k;
+    k=i-prim+1;
+    console.log('dos..',a)
+    while(j!=k){
+        console.log('int..',a)
+        j=k;
+        if((2*j<=ult-prim+1) && (a[2*j+prim-1]>a[k+prim-1])){
+            k=2*j;
+        }
+        if((2*j<ult-prim+1) && (a[2*j+prim]>a[k+prim-1])){
+            k=2*j+1;
+        }
+        intercambia(a,j+prim-1,k+prim-1);
+    }
+    console.log('dos..a',a)
+    return a
+}
+
+function hacerMonticulo(a,prim,ult){
+    let i;
+    for(i=Math.floor((ult-prim+1)/2);i>=1;i--){
+        console.log(i)
+        empujar(a,prim,ult,prim+i-1);
+    }
+    return a
+}
+
+function monticulo(a,prim,ult){
+    let i;
+    console.log('uno..',a)
+    hacerMonticulo(a,prim,ult);
+    console.log('tres..',a)
+    for(i=ult;i>=(prim+1);i--){
+        intercambia(a,prim,i);
+        empujar(a,prim,i-1,prim);
+    }
+    return a
+}
 // console.table(interseccion([2,45,2,5,6,3,1],0,6))
 // console.log(posMax([2,45,2,5,6,3,1],0,6))
 // console.log(posMin([2,45,2,5,6,3,1],0,6))
@@ -163,4 +203,5 @@ function mezclaUno(a,prim,ult){
 // console.table(seleccion([2,45,2,5,6,3,1],0,6))
 // console.table(burbuja([2,45,2,5,6,3,1],0,6))
 // console.table(mezcla([2,45,2,5,6,3,1],new Array(7),0,6))
-console.table(mezclaUno([2,45,2,5,6,3,1],0,6))
+// console.table(mezclaUno([2,45,2,5,6,3,1],0,6))
+console.table(monticulo([2,45,2,5,6,3,1],0,6))
