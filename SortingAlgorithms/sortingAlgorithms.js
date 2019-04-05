@@ -160,7 +160,6 @@ function mezclaUno(a,prim,ult){
 function empujar(a,prim,ult,i){
     let j,k;
     k=i-prim+1;
-    console.log('dos..',a)
     while(j!=k){
         console.log('int..',a)
         j=k;
@@ -172,14 +171,12 @@ function empujar(a,prim,ult,i){
         }
         intercambia(a,j+prim-1,k+prim-1);
     }
-    console.log('dos..a',a)
     return a
 }
 
 function hacerMonticulo(a,prim,ult){
     let i;
     for(i=Math.floor((ult-prim+1)/2);i>=1;i--){
-        console.log(i)
         empujar(a,prim,ult,prim+i-1);
     }
     return a
@@ -187,14 +184,100 @@ function hacerMonticulo(a,prim,ult){
 
 function monticulo(a,prim,ult){
     let i;
-    console.log('uno..',a)
     hacerMonticulo(a,prim,ult);
-    console.log('tres..',a)
     for(i=ult;i>=(prim+1);i--){
         intercambia(a,prim,i);
         empujar(a,prim,i-1,prim);
     }
     return a
+}
+
+function privote(a,p,prim,ult){
+    let i,l;
+    i=prim;
+    l=ult;
+    while(!((a[i]>p)||(i>=ult))){
+        i++;
+    }
+    while(!(a[l]<=p)){
+        l--;
+    }
+    while(i<l){
+        intercambia(a,i,l);
+        while(!(a[i]>p)){
+            i++;
+        }
+        while(!(a[l]<=p)){
+            l--;
+        }
+    }
+    intercambia(a,prim,l);
+    return l
+}
+function quickSort(a,prim,ult){
+    //complejidad
+    //peor O(n^2)
+    //mejor y medio O(nlogn)
+    let l;
+    if(prim<ult){
+        l=privote(a,a[prim],prim,ult);
+        quickSort(a,prim,l-1);
+        quickSort(a,l+1,ult);
+    }
+    return a
+}
+
+// function shellSort(a,prim,ult){
+//     let j,h,N,v;
+//     N=(ult-prim+1);
+//     h=1;
+//     while(!(h>N)){
+//         h=3*h+1;
+//     }
+//     console.log(h,'sad')
+//     do{
+//         h=Math.floor(h/3);
+//         for(let i=h;i<N;i++){
+//             v=a[i+prim];
+//             j=i;
+//             while((j>=h)&&(a[j-h+prim]>v)){
+//                 a[j+prim]=a[j-h+prim];
+//                 console.log(j,h)
+//                 j=j-h;
+//                 console.log(j)
+//                 console.log(a,'nnn')
+//                 // h--;
+//             }
+//             a[j+prim]=v;
+//         }
+//         console.log(a,h,'++')
+//     }while(!(h=1))
+//     return a
+// }
+function shellSort(a,prim,ult){
+    let N=ult-prim+1;
+    var increment = (N/2);
+    while (increment > 0) {
+        for (let i = increment; i < N; i++) {
+            console.log('incr',i)
+            var j = i;
+            var temp = a[i+prim];
+    
+            while (j >= increment && a[j-increment+prim] > temp) {
+                a[j+prim] = a[j-increment+prim];
+                j = j - increment;
+            }
+    
+            a[j+prim] = temp;
+        }
+    
+        if (increment == 2) {
+            increment = 1;
+        } else {
+            increment = parseInt(increment*5 / 11);
+        }
+    }
+  return a;
 }
 // console.table(interseccion([2,45,2,5,6,3,1],0,6))
 // console.log(posMax([2,45,2,5,6,3,1],0,6))
@@ -204,4 +287,6 @@ function monticulo(a,prim,ult){
 // console.table(burbuja([2,45,2,5,6,3,1],0,6))
 // console.table(mezcla([2,45,2,5,6,3,1],new Array(7),0,6))
 // console.table(mezclaUno([2,45,2,5,6,3,1],0,6))
-console.table(monticulo([2,45,2,5,6,3,1],0,6))
+// console.table(monticulo([2,45,2,5,6,3,1],0,6))
+console.table(quickSort([2,45,2,5,6,3,1],0,6))
+console.table(shellSort([2,45,2,5,6,3,1],0,6))
