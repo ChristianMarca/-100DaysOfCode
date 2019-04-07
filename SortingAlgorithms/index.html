@@ -10,80 +10,152 @@
 </head>
 <body>
     <script src="https://d3js.org/d3.v5.min.js"></script>
-    <script>
-        var format = d3.timeFormat("%m/%d/%y");
+    <!-- <script type="module">
         
-        var margin = {top: 20, right: 30, bottom: 30, left: 40},
-            width = 960 - margin.left - margin.right,
-            height = 500 - margin.top - margin.bottom;
-        
+        console.log(Sort)
+    </script> -->
+    <script type="module">
+        import _Sort from './sortingAlgorithms.js'
+        // let Sort=require('./sortingAlgorithms.js');
+        var Sort=function async(_Array,prim=0,ult=(_Array.length-1)){
+            let sort= new _Sort(_Array);
+            return new Promise((resolve,reject)=>{
+                console.log('tetsahakaj')
+                resolve(sort.interseccion(0,_Array.length-1));
+            })
+        } 
+
+        var margin = {top: 20, right: 20, bottom: 30, left: 50},
+        width = 960 - margin.left - margin.right,
+        height = 500 - margin.top - margin.bottom;
+
+        var parseDate = d3.timeParse("%Y%m%d");
+
         var x = d3.scaleTime()
             .range([0, width]);
-        
+
         var y = d3.scaleLinear()
             .range([height, 0]);
-        
-        var z = d3.scaleOrdinal(d3.schemeCategory10);
-        
+
         var xAxis = d3.axisBottom()
             .scale(x)
-            .ticks(d3.timeDays);
-        
+            // .orient("bottom");
+
         var yAxis = d3.axisLeft()
             .scale(y)
             // .orient("left");
-        
-        var stack = d3.stack()
-            .offset("zero")
-            .values(function(d) { return d.values; })
-            .x(function(d) { return d.date; })
-            .y(function(d) { return d.value; });
-        
-        var nest = d3.nest()
-            .key(function(d) { return d.key; });
-        
-        var area = d3.svg.area()
-            .interpolate("cardinal")
+
+        var line = d3.line()
             .x(function(d) { return x(d.date); })
-            .y0(function(d) { return y(d.y0); })
-            .y1(function(d) { return y(d.y0 + d.y); });
-        
+            .y(function(d) { return y(d.temperature); })
+            .curve(d3.curveBasis);
+
         var svg = d3.select("body").append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
-            .append("g")
+        .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
         
-        d3.csv("data.csv", function(error, data) {
-            if (error) throw error;
-        
+        d3.csv("data.csv").then(data=>{
             data.forEach(function(d) {
-            d.date = format.parse(d.date);
-            d.value = +d.value;
+                d.date = parseDate(d.date);
+                d.temperature = +d.temperature;
             });
-        
-            var layers = stack(nest.entries(data));
-        
-            x.domain(d3.extent(data, function(d) { return d.date; }));
-            y.domain([0, d3.max(data, function(d) { return d.y0 + d.y; })]);
-        
-            svg.selectAll(".layer")
-                .data(layers)
-            .enter().append("path")
-                .attr("class", "layer")
-                .attr("d", function(d) { return area(d.values); })
-                .style("fill", function(d, i) { return z(i); });
-        
-            svg.append("g")
-                .attr("class", "x axis")
-                .attr("transform", "translate(0," + height + ")")
-                .call(xAxis);
-        
-            svg.append("g")
-                .attr("class", "y axis")
-                .call(yAxis);
-        });
-        
-        </script>
+
+        x.domain([data[0].date, data[data.length - 1].date]);
+        y.domain(d3.extent(data, function(d) { return d.temperature; }));
+
+        svg.append("linearGradient")
+            .attr("id", "temperature-gradient")
+            .attr("gradientUnits", "userSpaceOnUse")
+            .attr("x1", 0).attr("y1", y(50))
+            .attr("x2", 0).attr("y2", y(60))
+            .selectAll("stop")
+            .data([
+                {offset: "0%", color: "black"},
+                {offset: "50%", color: "black"},
+                {offset: "50%", color: "red"},
+                {offset: "100%", color: "red"}
+            ])
+            .enter().append("stop")
+            .attr("offset", function(d) { return d.offset; })
+            .attr("stop-color", function(d) { return d.color; });
+        svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis);
+
+        svg.append("g")
+            .attr("class", "y axis")
+            .call(yAxis)
+            .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 6)
+            .attr("dy", ".71em")
+            .style("text-anchor", "end")
+            .text("Temperature (ºF)");
+            console.log("aui;",data)
+        svg.append("path")
+            .datum(data)
+            .attr("class", "line")
+            .attr("d", line);
+        }).catch(error=>{
+            throw error;
+        })
+        var startTime, endTime;
+        function start() {
+           startTime = new Date();
+           console.log('uno',startTime)
+        };
+
+        function end() {
+            endTime = new Date();
+            console.log('udos',endTime)
+            var timeDiff = endTime - startTime; //in ms
+            console.log('hsatie',timeDiff,startTime,endTime)
+            // strip the ms
+            timeDiff /= 1000;
+
+            // get seconds 
+            var seconds = Math.round(timeDiff);
+            console.log(seconds + " seconds");
+        }
+        function createRandomArray(N){
+            return Array.apply(null, {length: N}).map(Function.call, Math.random);
+        }
+        let N=10000000;
+        let k=1;
+        let s;
+        let rand=new Array(N);
+        console.log('lebn',rand.length)
+        if(N>=100000){
+            k=Math.floor(N/100000);
+            console.log(k,'number')
+            s=N%100000;
+            for(let i=1;i<=k;i++){
+                rand.concat(createRandomArray(100000));
+            }
+            console.log('he',rand.length)
+        }else{
+            rand.push(createRandomArray(N))
+        }
+        // var start = new Date().getTime();
+        start()
+        console.log('duna',new Date())
+        Sort(rand)
+        .then(data=>{
+            // console.table(data)
+            console.log('ok')
+            end()
+            console.log('truna',new Date())
+        }).catch(e=>{
+            console.error(e)
+        }).finally(()=>{
+            // var end = new Date().getTime();
+            // console.log(end - start);
+            end()
+        })
+    </script>
+    
 </body>
 </html>

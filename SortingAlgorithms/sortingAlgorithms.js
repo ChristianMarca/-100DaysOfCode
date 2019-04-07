@@ -1,4 +1,4 @@
-module.exports =function Sort(arr){
+export default function Sort(arr){
     this.arr=arr;
 }
 
@@ -284,3 +284,11 @@ Sort.prototype.shellSort=function(prim,ult){
 // console.table(monticulo([2,45,2,5,6,3,1],0,6))
 // console.table(quickSort([2,45,2,5,6,3,1],0,6))
 // console.table(shellSort([2,45,2,5,6,3,1],0,6))
+// if (typeof exports !== 'undefined') {
+//     if (typeof module !== 'undefined' && module.exports) {
+//         exports = module.exports = _;
+//     }
+//     exports._ = _;
+// } else {
+//     root['_'] = _;
+// }
