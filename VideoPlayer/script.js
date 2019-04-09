@@ -5,6 +5,10 @@ export default class VideoPlayer{
         this.isPaused=true;
         this.mouseDown= false;
     }
+    init(){
+        this._selectors();
+        this._eventListeners();
+    }
     _selectors(){
         //Get out Elements
         const player = document.querySelector('.player');
